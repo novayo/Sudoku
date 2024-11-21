@@ -1,4 +1,5 @@
 # pylint: disable=no-member
+import asyncio
 import pygame
 from typing import Optional, Sequence
 from dataclasses import dataclass
@@ -234,15 +235,20 @@ class Game:
                             print(f">>> Click on (i, j) = ({cell.i}, {cell.j})")
                             break
 
-    def start(self):
+    async def start(self):
         while True:
             self.fps.tick(60)
             self.bg.fill(COLORS.BLACK)
             self.handle_user_input()
             self.draw_all_cells()
             pygame.display.flip()
+            await asyncio.sleep(0)
+
+
+async def main():
+    game = Game()
+    await game.start()
 
 
 if __name__ == "__main__":
-    game = Game()
-    game.start()
+    asyncio.run(main())
